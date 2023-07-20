@@ -43,7 +43,7 @@ public class MySecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 //		http.httpBasic();
 		http.formLogin();
-		http.authorizeHttpRequests().anyRequest().authenticated();
+		http.authorizeHttpRequests().regexMatchers("/hello").authenticated().anyRequest().denyAll();
 		return http.build();
 	}
 
