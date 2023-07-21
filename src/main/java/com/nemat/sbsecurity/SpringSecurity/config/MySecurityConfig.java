@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.nemat.sbsecurity.SpringSecurity.security.MySecurityFilter;
 
 @Configuration
 public class MySecurityConfig {
@@ -41,9 +44,10 @@ public class MySecurityConfig {
 	
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//		http.httpBasic();
-		http.formLogin();
+		http.httpBasic();
+//		http.formLogin();
 		http.authorizeHttpRequests().regexMatchers("/hello").authenticated().anyRequest().denyAll();
+		http.addFilterBefore(new MySecurityFilter(), BasicAuthenticationFilter.class);
 		return http.build();
 	}
 
